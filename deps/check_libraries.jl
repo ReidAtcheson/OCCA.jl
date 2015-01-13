@@ -1,5 +1,5 @@
 function openmp_exists()
-    return false;
+    return true;
 end
 
 function pthreads_exists()
@@ -11,5 +11,5 @@ function cuda_exists()
 end
 
 function opencl_exists()
-    return true;
+    return false;
 end
