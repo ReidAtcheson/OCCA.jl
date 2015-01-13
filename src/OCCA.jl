@@ -9,7 +9,7 @@ cd(thisdir);
 cd("../deps");
 
 #Point to OCCA shared library.
-ENV["OCCA_DIR"]=pwd() * "OCCA2/"
+ENV["OCCA_DIR"]=pwd() * "/OCCA2/"
 
 
 cd(tmpdir);
