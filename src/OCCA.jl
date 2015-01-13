@@ -1,8 +1,20 @@
 module OCCA
 
+thisfile= @__FILE__();
+thisdir = dirname(thisfile);
+tmpdir  = pwd();
 
-#Point to libocca.so installed by build.jl
-libocca = "todo";
+cd(thisdir);
+cd("../deps");
+
+#Point to OCCA shared library.
+libocca = pwd() * "OCCA2/lib/libocca.so"
+ENV["OCCA_DIR"]=pwd() * "OCCA2/"
+
+
+cd(tmpdir);
+
+
 
 #---[ Types ]-----------------
 type Device
@@ -236,7 +248,7 @@ argType(arg::Uint64) = ccall((:occaChar, libocca), Ptr{Void}, (Uint64,), arg)
 argType(arg::Float32) = ccall((:occaChar, libocca), Ptr{Void}, (Float32,) , arg)
 argType(arg::Float64) = ccall((:occaChar, libocca), Ptr{Void}, (Float64,) , arg)
 
-function runKernel(k::kernel, args...)
+function runKernel(k::Kernel, args...)
     argList = ccall((:occaGenArgumentList, libocca),
                     Ptr{Void}, ())
 
@@ -277,14 +289,14 @@ function runKernel(k::kernel, args...)
           argList)
 end
 
-function timeTaken(k::kernel)
+function timeTaken(k::Kernel)
     return ccall((:occaKernelTimeTaken, libocca),
                  Float64,
                  (Ptr{Void},),
                  k.cKernel)
 end
 
-function addDefine(info::kernelInfo, macro_::String, value::String)
+function addDefine(info::KernelInfo, macro_::String, value::String)
     occaValue = ccall((:occaString, libocca),
                       Ptr{Void},
                       (Ptr{Uint8},),
@@ -296,7 +308,7 @@ function addDefine(info::kernelInfo, macro_::String, value::String)
           info.cKernelInfo, bytestring(macro_), occaValue)
 end
 
-function finalizer(info::kernelInfo)
+function finalizer(info::KernelInfo)
     ccall((:occaKernelInfoFree, libocca),
           Void,
           (Ptr{Void},),
@@ -304,14 +316,14 @@ function finalizer(info::kernelInfo)
 end
 
 #---[ Memory ]----------------
-function finalizer(m::memory)
+function finalizer(m::Memory)
     ccall((:occaMemoryFree, libocca),
           Void,
           (Ptr{Void},),
           m.cMemory)
 end
 
-function mode(m::memory)
+function mode(m::Memory)
     cMode = ccall((:occaMemoryMode, libocca),
                   Ptr{Uint8},
                   (Ptr{Void},),
