@@ -107,7 +107,7 @@ function buildKernelFromSource(d::Device,
                         info.cKernelInfo)
     end
 
-    return kernel(cKernel)
+    return Kernel(cKernel)
 end
 
 function buildKernelFromBinary(d::Device,
@@ -120,7 +120,7 @@ function buildKernelFromBinary(d::Device,
                     bytestring(filename),
                     bytestring(functionName))
 
-    return kernel(cKernel)
+    return Kernel(cKernel)
 end
 
 function malloc(d::Device, source::Array)
@@ -134,7 +134,7 @@ function malloc(d::Device, source::Array)
                     (Ptr{Void}, Uint, Ptr{Void},),
                     d.cDevice, bytes, pointer(source))
 
-    return memory(cMemory, cTypes)
+    return Memory(cMemory, cTypes)
 end
 
 function malloc(d::Device, entriesAndType)
@@ -153,7 +153,7 @@ function malloc(d::Device, entriesAndType)
                     (Ptr{Void}, Uint, Ptr{Void},),
                     d.cDevice, bytes, C_NULL)
 
-    return memory(cMemory, cTypes)
+    return Memory(cMemory, cTypes)
 end
 
 function createStream(d::Device)
@@ -162,7 +162,7 @@ function createStream(d::Device)
                     (Ptr{Void},),
                     d.cDevice)
 
-    return stream(cStream)
+    return Stream(cStream)
 end
 
 function getStream(d::Device)
@@ -171,7 +171,7 @@ function getStream(d::Device)
                     (Ptr{Void},),
                     d.cDevice)
 
-    return stream(cStream)
+    return Stream(cStream)
 end
 
 function setStream(d::Device, s::Stream)
@@ -250,7 +250,7 @@ function runKernel(k::Kernel, args...)
 
     pos = convert(Int32, 0)
     for arg in args
-        if isa(arg, memory)
+        if isa(arg, Memory)
             ccall((:occaArgumentListAddArg, libocca),
                   Void,
                   (Ptr{Void}, Int32, Ptr{Void},),
@@ -329,7 +329,7 @@ function mode(m::Memory)
 end
 
 function memcpy(destTuple, srcTuple, bytes::Number = 0)
-    if isa(destTuple, memory)
+    if isa(destTuple, Memory)
         dest = destTuple.cMemory
 
         destOffset = 0
@@ -346,7 +346,7 @@ function memcpy(destTuple, srcTuple, bytes::Number = 0)
     else
         dest = destTuple[1]
 
-        if isa(dest, memory)
+        if isa(dest, Memory)
             dest = dest.cMemory
             destIsAMemory = true
         else
@@ -358,7 +358,7 @@ function memcpy(destTuple, srcTuple, bytes::Number = 0)
         convert(Uint, destOffset)
     end
 
-    if isa(srcTuple, memory)
+    if isa(srcTuple, Memory)
         src = srcTuple.cMemory
 
         srcOffset = 0
@@ -375,7 +375,7 @@ function memcpy(destTuple, srcTuple, bytes::Number = 0)
     else
         src = srcTuple[1]
 
-        if isa(src, memory)
+        if isa(src, Memory)
             src = src.cMemory
             srcIsAMemory = true
         else
@@ -408,7 +408,7 @@ function memcpy(destTuple, srcTuple, bytes::Number = 0)
                   (Ptr{Void}, Ptr{Void}, Uint, Uint,),
                   dest, src, bytes, srcOffset)
         else
-            error("One of the arguments should be an OCCA memory type")
+            error("One of the arguments should be an OCCA nemory type")
         end
     end
 end
