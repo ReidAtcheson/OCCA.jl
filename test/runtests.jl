@@ -18,7 +18,7 @@ function test_vectoradd()
     o_ab = OCCA.malloc(device, ab);
 
     addVectors = OCCA.buildKernelFromSource(device,
-                                            "addVectors.occa",
+                                            "addVectors.okl",
                                             "addVectors")
 
     dims = 1;
