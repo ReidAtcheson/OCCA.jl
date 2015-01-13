@@ -52,10 +52,6 @@ type Memory
     cTypes
 end
 
-function memory(cMemory, cTypes)
-    return memory(cMemory,cTypes);
-end
-
 
 #---[ Device ]----------------
 function finalizer(d::Device)
