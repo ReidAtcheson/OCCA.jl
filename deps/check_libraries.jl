@@ -11,5 +11,5 @@ function cuda_exists()
 end
 
 function opencl_exists()
-    return false;
+    return true;
 end

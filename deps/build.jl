@@ -14,7 +14,7 @@ thisdir  = dirname(thisfile);
 cd(thisdir);
 
 f=open("../src/occapaths.jl","w");
-write(f,"libocca=\"$(thisdir)/OCCA2/lib/libocca.so\"");
+write(f,"const libocca=\"$(thisdir)/OCCA2/lib/libocca.so\"");
 close(f);
 
 #If OCCA2 doesn't exist, download source from git.

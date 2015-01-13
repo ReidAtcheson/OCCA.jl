@@ -22,7 +22,6 @@ type Device
 end
 
 function Device(mode::String, arg1::Number = 0, arg2::Number = 0)
-    print(libocca);print("\n");
     convert(Int32, arg1)
     convert(Int32, arg2)
 
