@@ -1,5 +1,5 @@
 function openmp_exists()
-    return true;
+    return false;
 end
 
 function pthreads_exists()
