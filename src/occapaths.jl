@@ -1,1 +1,1 @@
-libocca="/Users/silentvoice/clones/OCCA.jl/deps/OCCA2/lib/libocca.so"
+const libocca="/Users/silentvoice/.julia/OCCA/deps/OCCA2/lib/libocca.so"
