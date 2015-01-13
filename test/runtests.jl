@@ -1,13 +1,11 @@
 module TESTOCCA
 using OCCA
-
-
-@test test_vectoradd() == true
+using Base.Test
 
 
 function test_vectoradd()
     entries = 5
-    device = OCCA.device("OpenCL", 0, 0);
+    device = OCCA.Device("OpenCL", 0, 0);
 
     a  = Float32[1 - i for i in 1:entries]
     b  = Float32[i     for i in 1:entries]
@@ -38,5 +36,11 @@ function test_vectoradd()
 
     return true;
 end
+
+
+
+
+@test test_vectoradd() == true
+
 
 end

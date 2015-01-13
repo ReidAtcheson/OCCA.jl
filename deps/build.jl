@@ -13,6 +13,10 @@ thisdir  = dirname(thisfile);
 #Change to dependencies directory.
 cd(thisdir);
 
+f=open("../src/occapaths.jl","w");
+write(f,"libocca=\"$(thisdir)/OCCA2/lib/libocca.so\"");
+close(f);
+
 #If OCCA2 doesn't exist, download source from git.
 occadir = thisdir * "/OCCA2";
 if !isdir(occadir);

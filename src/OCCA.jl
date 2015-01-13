@@ -1,4 +1,5 @@
 module OCCA
+include("occapaths.jl");
 
 thisfile= @__FILE__();
 thisdir = dirname(thisfile);
@@ -8,7 +9,6 @@ cd(thisdir);
 cd("../deps");
 
 #Point to OCCA shared library.
-libocca = pwd() * "OCCA2/lib/libocca.so"
 ENV["OCCA_DIR"]=pwd() * "OCCA2/"
 
 
@@ -22,6 +22,7 @@ type Device
 end
 
 function Device(mode::String, arg1::Number = 0, arg2::Number = 0)
+    print(libocca);print("\n");
     convert(Int32, arg1)
     convert(Int32, arg2)
 
