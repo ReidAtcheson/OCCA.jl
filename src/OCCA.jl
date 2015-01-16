@@ -9,7 +9,7 @@ cd(thisdir);
 cd("../deps");
 
 #Point to OCCA shared library.
-ENV["OCCA_DIR"]=pwd() * "/OCCA2/"
+ENV["OCCA_DIR"]=pwd() * "/OCCA2"
 
 
 cd(tmpdir);
@@ -87,7 +87,7 @@ end
 
 function buildKernelFromSource(d::Device,
                                filename::String,
-                               functionName::String,
+                               functionName::String;
                                info = C_NULL)
     if info == C_NULL
         cKernel = ccall((:occaBuildKernelFromSource, libocca),
