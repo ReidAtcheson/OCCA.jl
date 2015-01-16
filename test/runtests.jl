@@ -3,7 +3,7 @@ using OCCA
 using Base.Test
 
 
-function test_vectoradd()
+function test_vectoradd(kernelfile)
     entries = 5
     device = OCCA.Device("OpenMP", 0, 0);
 
@@ -16,7 +16,7 @@ function test_vectoradd()
     o_ab = OCCA.malloc(device, ab);
 
     addVectors = OCCA.buildKernelFromSource(device,
-                                            "addVectors.ofl",
+                                            kernelfile,
                                             "addVectors")
 
     dims = 1;
@@ -39,8 +39,9 @@ end
 
 
 
-
-@test test_vectoradd() == true
+@test test_vectoradd("addVectors.ofl") == true;
+@test test_vectoradd("addVectors.okl") == true;
+@test test_vectoradd("addVectors.occa") == true;
 
 
 end
