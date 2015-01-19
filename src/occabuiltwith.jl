@@ -1,0 +1,4 @@
+OCCA_USE_OPENMP = false;
+OCCA_USE_PTHREADS = true;
+OCCA_USE_OPENCL = true;
+OCCA_USE_CUDA = false;

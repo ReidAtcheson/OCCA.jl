@@ -25,8 +25,8 @@ f=open("../src/occapaths.jl","w");
 write(f,"const libocca=\"$(thisdir)/OCCA2/lib/libocca.so\"");
 close(f);
 
-#Functions for testing the existence of different parallel libraries.
 using OCCA;
+
 
 
 #If OCCA2 doesn't exist, download source from git.
@@ -51,6 +51,8 @@ end
 if OCCA.USE_OPENCL
     ENV["OCCA_OPENCL_ENABLED"]=1;
 end
+
+
 
 #Run the main build command.
 cd(occadir);
