@@ -1,14 +1,56 @@
-function test_openmp_okl_ofl_vectoradd(kernelfile::String)
+
+
+function test_openmp_okl_ofl_vectoradd(kernelfile::String,backend::TestBackend)
     OpenMP_Info   = "mode = OpenMP  , schedule = compact, chunk = 10";
     OpenCL_Info   = "mode = OpenCL  , platformID = 0, deviceID = 0";
     CUDA_Info     = "mode = CUDA    , deviceID = 0";
     Pthreads_Info = "mode = Pthreads, threadCount = 4, schedule = compact, pinnedCores = [0, 0, 1, 1]";
-    COI_Info      = "mode = COI     , deviceID = 0";
+    #COI_Info      = "mode = COI     , deviceID = 0";
+
+    linfo::String = "";
+    if backend == TestBackend(testopencl)
+        if OCCA.USE_OPENCL
+            linfo=OpenCL_Info;
+        else
+            print("OpenCL support not compiled in OCCA.\n");
+            return true;
+        end
+    end
+    if backend == TestBackend(testopenmp)
+        if OCCA.USE_OPENMP
+            linfo=OpenMP_Info;
+        else
+            print("OpenMP support not compiled in OCCA.\n");
+            return true;
+        end
+    end
+    if backend==TestBackend(testcuda)
+        if OCCA.USE_CUDA
+            linfo = CUDA_Info;
+        else
+            print("CUDA support not compiled in OCCA.\n");
+            return true;
+        end
+    end
+    if backend==TestBackend(testpthreads)
+        if OCCA.USE_PTHREADS
+            linfo = Pthreads_Info;
+        else
+            print("Pthreads support not compiled in OCCA.\n");
+            return true;
+        end
+    end
+
+    #OpenMP will default to serial implementation if it is not otherwise built into OCCA.
+    if backend==TestBackend(testserial)
+        linfo = OpenMP_Info;
+    end
+
 
 
     entries = 5
 
-    device = OCCA.Device(OpenMP_Info);
+    device = OCCA.Device(linfo);
 
     a  = Float32[1 - i for i in 1:entries]
     b  = Float32[i     for i in 1:entries]
