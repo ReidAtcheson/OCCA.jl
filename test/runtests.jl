@@ -22,7 +22,7 @@ function test_vectoradd(kernelfile::String)
     o_ab = OCCA.malloc(device, ab);
 
     addVectors = OCCA.buildKernelFromSource(device,
-                                            kernelFile,
+                                            kernelfile,
                                             "addVectors")
 
     OCCA.runKernel(addVectors,
