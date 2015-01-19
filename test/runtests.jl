@@ -38,8 +38,8 @@ function test_okl_ofl_vectoradd(kernelfile::String)
 end
 
 
-@test test_vectoradd("addVectors.ofl") == true;
-@test test_vectoradd("addVectors.okl") == true;
+@test test_okl_ofl_vectoradd("addVectors.ofl") == true;
+@test test_okl_ofl_vectoradd("addVectors.okl") == true;
 
 
 end
