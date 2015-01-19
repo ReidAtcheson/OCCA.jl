@@ -11,25 +11,25 @@ function test_vectoradd(kernelfile::String)
     Pthreads_Info = "mode = Pthreads, threadCount = 4, schedule = compact, pinnedCores = [0, 0, 1, 1]";
     COI_Info      = "mode = COI     , deviceID = 0";
 
-    device = occa.device(OpenMP_Info);
+    device = OCCA.Device(OpenMP_Info);
 
     a  = Float32[1 - i for i in 1:entries]
     b  = Float32[i     for i in 1:entries]
     ab = Float32[0     for i in 1:entries]
 
-    o_a  = occa.malloc(device, a);
-    o_b  = occa.malloc(device, b);
-    o_ab = occa.malloc(device, ab);
+    o_a  = OCCA.malloc(device, a);
+    o_b  = OCCA.malloc(device, b);
+    o_ab = OCCA.malloc(device, ab);
 
-    addVectors = occa.buildKernelFromSource(device,
+    addVectors = OCCA.buildKernelFromSource(device,
                                             kernelFile,
                                             "addVectors")
 
-    occa.runKernel(addVectors,
+    OCCA.runKernel(addVectors,
                    (entries, Int32),
                    o_a, o_b, o_ab)
 
-    occa.memcpy(ab, o_ab)
+    OCCA.memcpy(ab, o_ab)
 
     println(ab)
 end
