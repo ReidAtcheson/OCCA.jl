@@ -14,7 +14,7 @@ end
 testopencl = TestOpenCL();
 testopenmp = TestOpenMP();
 testpthreads = TestPthreads();
-testcuda = TestCuda();
+testcuda = TestCUDA();
 testserial = TestSerial();
 
 immutable TestBackend
