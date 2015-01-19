@@ -22,9 +22,6 @@ type Device
 end
 
 function Device(infos::String)
-    convert(Int32, arg1)
-    convert(Int32, arg2)
-
     cDevice = ccall((:occaGetDevice, libocca),
                     Ptr{Void},
                     (Ptr{Uint8}),
