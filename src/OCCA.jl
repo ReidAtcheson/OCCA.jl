@@ -3,10 +3,10 @@ include("occapaths.jl");
 include("occabuiltwith.jl");
 
 #Flags for which threading libraries to build into OCCA.
-USE_OPENMP = OCCA_USE_OPENMP;
-USE_PTHREADS = OCCA_USE_PTHREADS;
-USE_CUDA = OCCA_USE_CUDA;
-USE_OPENCL = OCCA_USE_OPENCL;
+global USE_OPENMP = OCCA_USE_OPENMP;
+global USE_PTHREADS = OCCA_USE_PTHREADS;
+global USE_CUDA = OCCA_USE_CUDA;
+global USE_OPENCL = OCCA_USE_OPENCL;
 
 
 
