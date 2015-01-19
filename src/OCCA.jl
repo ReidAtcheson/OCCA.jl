@@ -24,7 +24,7 @@ end
 function Device(infos::String)
     cDevice = ccall((:occaGetDevice, libocca),
                     Ptr{Void},
-                    (Ptr{Uint8}),
+                    (Ptr{Uint8},),
                     bytestring(infos));
    return Device(cDevice);
 end
