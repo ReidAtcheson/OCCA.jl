@@ -15,7 +15,9 @@ function test_vectoradd(kernelfile::String)
 
     a  = Float32[1 - i for i in 1:entries]
     b  = Float32[i     for i in 1:entries]
-    ab = Float32[0     for i in 1:entries]
+    ab = Array(Float32,(length(a),));
+
+    correctvals = [1.0 for i in 1:entries];
 
     o_a  = OCCA.malloc(device, a);
     o_b  = OCCA.malloc(device, b);
@@ -31,7 +33,8 @@ function test_vectoradd(kernelfile::String)
 
     OCCA.memcpy(ab, o_ab)
 
-    println(ab)
+
+    return (norm(correctvals-ab)/norm(correctvals))<1e-5
 end
 
 
