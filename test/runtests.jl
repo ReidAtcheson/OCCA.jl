@@ -2,7 +2,7 @@ module TESTOCCA
 using OCCA
 using Base.Test
 
-function test_vectoradd(kernelfile::String)
+function test_okl_ofl_vectoradd(kernelfile::String)
     entries = 5
 
     OpenMP_Info   = "mode = OpenMP  , schedule = compact, chunk = 10";
@@ -40,7 +40,6 @@ end
 
 @test test_vectoradd("addVectors.ofl") == true;
 @test test_vectoradd("addVectors.okl") == true;
-@test test_vectoradd("addVectors.occa") == true;
 
 
 end
