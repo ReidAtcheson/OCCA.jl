@@ -15,7 +15,6 @@ write(f,"const libocca=\"$(thisdir)/OCCA2/lib/libocca.so\"");
 close(f);
 
 #Functions for testing the existence of different parallel libraries.
-include("check_libraries.jl");
 using OCCA;
 
 
@@ -29,16 +28,16 @@ end
 #Set necessary environment variables
 ENV["OCCA_DIR"]=occadir;
 
-if openmp_exists()
+if OCCA.USE_OPENMP
     ENV["OCCA_OPENMP_ENABLED"]=1;
 end
-if pthreads_exists()
+if OCCA.USE_PTHREADS
     ENV["OCCA_PTHREADS_ENABLED"]=1;
 end
-if cuda_exists()
+if OCCA.USE_CUDA
     ENV["OCCA_CUDA_ENABLED"]=1;
 end
-if opencl_exists()
+if OCCA.USE_OPENCL
     ENV["OCCA_OPENCL_ENABLED"]=1;
 end
 

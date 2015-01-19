@@ -1,6 +1,14 @@
 module OCCA
 include("occapaths.jl");
 
+#Flags for which threading libraries to build into OCCA.
+USE_OPENMP = false;
+USE_PTHREADS = false;
+USE_CUDA = false;
+USE_OPENCL = false;
+
+
+
 thisfile= @__FILE__();
 thisdir = dirname(thisfile);
 tmpdir  = pwd();
