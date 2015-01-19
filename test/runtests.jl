@@ -23,11 +23,11 @@ function test_okl_ofl_vectoradd(kernelfile::String)
     o_b  = OCCA.malloc(device, b);
     o_ab = OCCA.malloc(device, ab);
 
-    addVectors = OCCA.buildKernelFromSource(device,
+    addvectors = OCCA.buildkernelfromsource(device,
                                             kernelfile,
                                             "addVectors")
 
-    OCCA.runKernel(addVectors,
+    OCCA.runkernel(addvectors,
                    (entries, Int32),
                    o_a, o_b, o_ab)
 

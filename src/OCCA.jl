@@ -74,7 +74,7 @@ function mode(d::Device)
     return bytestring(cMode)
 end
 
-function setCompiler(d::Device,
+function setcompiler(d::Device,
                      compiler::String)
     ccall((:occaDeviceSetCompiler, libocca),
           Void,
@@ -82,7 +82,7 @@ function setCompiler(d::Device,
           d.cDevice, bytestring(compiler))
 end
 
-function setCompilerFlags(d::Device,
+function setcompilerflags(d::Device,
                           compilerFlags::String)
     ccall((:occaDeviceSetCompilerFlags, libocca),
           Void,
@@ -90,7 +90,7 @@ function setCompilerFlags(d::Device,
           d.cDevice, bytestring(compilerFlags))
 end
 
-function buildKernelFromSource(d::Device,
+function buildkernelfromsource(d::Device,
                                filename::String,
                                functionName::String;
                                info = C_NULL)
@@ -115,7 +115,7 @@ function buildKernelFromSource(d::Device,
     return Kernel(cKernel)
 end
 
-function buildKernelFromBinary(d::Device,
+function buildkernelfrombinary(d::Device,
                                filename::String,
                                functionName::String)
     cKernel = ccall((:occaBuildKernelFromBinary, libocca),
@@ -161,7 +161,7 @@ function malloc(d::Device, entriesAndType)
     return Memory(cMemory, cTypes)
 end
 
-function createStream(d::Device)
+function createstream(d::Device)
     cStream = ccall((:occaGenStream, libocca),
                     Ptr{Void},
                     (Ptr{Void},),
@@ -170,7 +170,7 @@ function createStream(d::Device)
     return Stream(cStream)
 end
 
-function getStream(d::Device)
+function getstream(d::Device)
     cStream = ccall((:occaGetStream, libocca),
                     Ptr{Void},
                     (Ptr{Void},),
@@ -179,7 +179,7 @@ function getStream(d::Device)
     return Stream(cStream)
 end
 
-function setStream(d::Device, s::Stream)
+function setstream(d::Device, s::Stream)
     ccall((:occaSetStream, libocca),
           Void,
           (Ptr{Void}, Ptr{Void},),
@@ -203,14 +203,14 @@ function mode(k::Kernel)
     return bytestring(cMode)
 end
 
-function getPreferredDimSize(k::Kernel)
+function getpreferreddimsize(k::Kernel)
     return ccall((:occaKernelPreferredDimSize, libocca),
                  Int32,
                  (Ptr{Void},),
                  k.cKernel)
 end
 
-function setWorkingDims(k::Kernel,
+function setworkingdims(k::Kernel,
                         dims, items, groups)
     convert(Int32, dims)
 
@@ -249,7 +249,7 @@ argType(arg::Uint64) = ccall((:occaULong, libocca), Ptr{Void}, (Uint64,), arg)
 argType(arg::Float32) = ccall((:occaFloat, libocca), Ptr{Void}, (Float32,) , arg)
 argType(arg::Float64) = ccall((:occaDouble, libocca), Ptr{Void}, (Float64,) , arg)
 
-function runKernel(k::Kernel, args...)
+function runkernel(k::Kernel, args...)
     argList = ccall((:occaGenArgumentList, libocca),
                     Ptr{Void}, ())
 
@@ -290,14 +290,14 @@ function runKernel(k::Kernel, args...)
           argList)
 end
 
-function timeTaken(k::Kernel)
+function timetaken(k::Kernel)
     return ccall((:occaKernelTimeTaken, libocca),
                  Float64,
                  (Ptr{Void},),
                  k.cKernel)
 end
 
-function addDefine(info::KernelInfo, macro_::String, value::String)
+function adddefine(info::KernelInfo, macro_::String, value::String)
     occaValue = ccall((:occaString, libocca),
                       Ptr{Void},
                       (Ptr{Uint8},),
@@ -425,7 +425,7 @@ function swap(a::Memory, b::Memory)
 end
 
 
-function rebuild_with(;pthreads=false,opencl=false,cuda=false,openmp=false)
+function rebuildwith(;pthreads=false,opencl=false,cuda=false,openmp=false)
     USE_OPENMP = openmp;
     USE_PTHREADS = pthreads;
     USE_CUDA = cuda;
