@@ -44,6 +44,7 @@ end
 #Run the main build command.
 cd(occadir);
 print(pwd());print("\n");
+run(`make clean`);
 run(`make`);
 
 

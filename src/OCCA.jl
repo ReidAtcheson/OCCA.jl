@@ -425,7 +425,7 @@ function swap(a::Memory, b::Memory)
 end
 
 
-function rebuild_with(pthreads=false,opencl=false,cuda=false,openmp=false)
+function rebuild_with(;pthreads=false,opencl=false,cuda=false,openmp=false)
     USE_OPENMP = openmp;
     USE_PTHREADS = pthreads;
     USE_CUDA = cuda;
