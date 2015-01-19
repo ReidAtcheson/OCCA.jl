@@ -1,11 +1,12 @@
 module OCCA
 include("occapaths.jl");
+include("occabuiltwith.jl");
 
 #Flags for which threading libraries to build into OCCA.
-USE_OPENMP = false;
-USE_PTHREADS = false;
-USE_CUDA = false;
-USE_OPENCL = false;
+USE_OPENMP = OCCA_USE_OPENMP;
+USE_PTHREADS = OCCA_USE_PTHREADS;
+USE_CUDA = OCCA_USE_CUDA;
+USE_OPENCL = OCCA_USE_OPENCL;
 
 
 
@@ -426,10 +427,37 @@ end
 
 
 function rebuildwith(;pthreads=false,opencl=false,cuda=false,openmp=false)
+    f=open(thisdir * "/occabuiltwith.jl","w");
+
+    if openmp
+        write(f,"OCCA_USE_OPENMP = true;\n");
+    else
+        write(f,"OCCA_USE_OPENMP = false;\n");
+    end
+    if pthreads
+        write(f,"OCCA_USE_PTHREADS = true;\n");
+    else
+        write(f,"OCCA_USE_PTHREADS = false;\n");
+    end
+    if opencl
+        write(f,"OCCA_USE_OPENCL = true;\n");
+    else
+        write(f,"OCCA_USE_OPENCL = false;\n");
+    end
+    if openmp
+        write(f,"OCCA_USE_CUDA = true;\n");
+    else
+        write(f,"OCCA_USE_CUDA = false;\n");
+    end
+    close(f);
+ 
+
+
     USE_OPENMP = openmp;
     USE_PTHREADS = pthreads;
     USE_CUDA = cuda;
     USE_OPENCL = opencl;
+
     Pkg.build("OCCA");
 end
 

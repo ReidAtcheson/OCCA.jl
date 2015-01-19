@@ -10,6 +10,17 @@ thisdir  = dirname(thisfile);
 #Change to dependencies directory.
 cd(thisdir);
 
+
+if !isfile("../src/occabuiltwith.jl")
+    f=open("../src/occabuiltwith.jl","w");
+    write(f,"OCCA_USE_OPENMP = false;\n");
+    write(f,"OCCA_USE_PTHREADS = false;\n");
+    write(f,"OCCA_USE_OPENCL = false;\n");
+    write(f,"OCCA_USE_CUDA = false;\n");
+    close(f);
+end
+
+
 f=open("../src/occapaths.jl","w");
 write(f,"const libocca=\"$(thisdir)/OCCA2/lib/libocca.so\"");
 close(f);
