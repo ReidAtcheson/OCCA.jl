@@ -1,6 +1,3 @@
-#Functions for testing the existence of different parallel libraries.
-include("check_libraries.jl");
-
 occa_github = "https://github.com/tcew/OCCA2.git";
 
 #Save current directory.
@@ -16,6 +13,11 @@ cd(thisdir);
 f=open("../src/occapaths.jl","w");
 write(f,"const libocca=\"$(thisdir)/OCCA2/lib/libocca.so\"");
 close(f);
+
+#Functions for testing the existence of different parallel libraries.
+include("check_libraries.jl");
+using OCCA;
+
 
 #If OCCA2 doesn't exist, download source from git.
 occadir = thisdir * "/OCCA2";

@@ -416,4 +416,7 @@ function swap(a::Memory, b::Memory)
     b.cMemory = tmp
 end
 
+
+
+
 end
