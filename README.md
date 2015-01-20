@@ -9,7 +9,8 @@ The main OCCA repository can be found
 #Installation and testing.
 
 ```julia
-Pkg.add("OCCA");
+Pkg.clone("https://github.com/ReidAtcheson/OCCA.jl.git");
+Pkg.build("OCCA");
 #OCCA will build with no parallel backends by default because 
 #reliable backend detection is under development.
 #To rebuild with e.g. opencl and cuda you would run
