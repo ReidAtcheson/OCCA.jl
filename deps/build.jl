@@ -28,7 +28,6 @@ close(f);
 using OCCA;
 
 
-
 #If OCCA2 doesn't exist, download source from git.
 occadir = thisdir * "/OCCA2";
 if !isdir(occadir);
