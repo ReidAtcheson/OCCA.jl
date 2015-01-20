@@ -1,9 +1,9 @@
 # OCCA.jl
 
-OCCA is a cross platform single-instruction-multiple-data ([SIMD](http://en.wikipedia.org/wiki/SIMD])) 
+OCCA is a cross platform single-instruction-multiple-data ([SIMD](http://en.wikipedia.org/wiki/SIMD)) 
 threading library that is 
 retargetable to multiple backends such as pthreads, openmp, opencl, and cuda. OCCA.jl is a Julia interface into OCCA.
-Julia interface into OCCA. The main OCCA repository can be found
+The main OCCA repository can be found
 [here](https://github.com/tcew/OCCA2).
 
 #Installation and testing.
