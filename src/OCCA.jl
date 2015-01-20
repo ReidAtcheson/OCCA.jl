@@ -2,6 +2,7 @@ module OCCA
 include("occapaths.jl");
 include("occabuiltwith.jl");
 
+
 #Flags for which threading libraries to build into OCCA.
 USE_OPENMP = OCCA_USE_OPENMP;
 USE_PTHREADS = OCCA_USE_PTHREADS;
