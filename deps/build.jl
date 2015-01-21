@@ -1,8 +1,5 @@
 occa_github = "https://github.com/tcew/OCCA2.git";
 
-# Save current directory.
-olddir = pwd();
-
 occapkgdir = Pkg.dir() * "/OCCA";
 
 if !isfile(occapkgdir * "src/occabuiltwith.jl")
@@ -51,7 +48,3 @@ end
 # Run the main build command.
 run(`make -f $occadir/makefile clean`);
 run(`make -j -f $occadir/makefile OCCA_COMPILING_WITH_JULIA=1`);
-
-
-# Return to previous directory.
-cd(olddir);
