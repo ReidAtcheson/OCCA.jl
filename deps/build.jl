@@ -56,11 +56,8 @@ end
 #Run the main build command.
 cd(occadir);
 run(`make clean`);
-run(`make`);
+run(`make OCCA_COMPILING_WITH_JULIA=1`);
 
 
 #Return to previous directory.
 cd(olddir);
-
-
-
