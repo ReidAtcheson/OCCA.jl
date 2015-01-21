@@ -12,7 +12,7 @@ if !isfile(occapkgdir * "/src/occabuiltwith.jl")
 end
 
 
-f=open(occapkgdir * "src/occapaths.jl","w");
+f=open(occapkgdir * "/src/occapaths.jl","w");
 write(f,"const libocca=\"" * occapkgdir * "/OCCA2/lib/libocca.so\"");
 close(f);
 
