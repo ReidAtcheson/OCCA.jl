@@ -22,7 +22,7 @@ using OCCA;
 currentdir = pwd();
 cd(occapkgdir);
 
-occadir = occapkgdir * "deps/OCCA2";
+occadir = occapkgdir * "/deps/OCCA2";
 
 # If OCCA2 doesn't exist, download source from git.
 if !isdir(occadir);
