@@ -9,18 +9,21 @@ The main OCCA repository can be found
 #Installation and testing.
 
 ```julia
-Pkg.clone("https://github.com/ReidAtcheson/OCCA.jl.git");
-Pkg.build("OCCA");
+Pkg.add("OCCA");
+#This takes a minute because no precompiled OCCA binaries exist.
 #OCCA will build with no parallel backends by default because 
 #reliable backend detection is under development.
 #To rebuild with e.g. opencl and cuda you would run
 using OCCA;
-OCCA.rebuildwith(opencl=true,cuda=true);
+OCCA.rebuildwith!(opencl=true,cuda=true);
 
 #To run tests for all compiled backends, run:
 Pkg.test("OCCA");
 
 #If a backend is not compiled, that test will simply pass without doing anything.
+#OCCA will default to serial mode if no backend is installed, so the tests
+#still provide some information about correctness of the test kernels (ignoring
+#parallel issues such as race conditions and deadlocks)
 
 
 ```
@@ -92,6 +95,14 @@ The build script does not work for Windows, this is under development.
 
 
 #Contributing
+
+##Contributing code
+Fork this repository on Github, make desired changes, and submit pull request.
+
+##Helping with tests and builds
+It would be enormously helpful if issues could be opened
+with any build or test failures, along with the specs of the machines
+on which the builds or tests failed.
 
 
 
