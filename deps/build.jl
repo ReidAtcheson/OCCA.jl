@@ -24,7 +24,7 @@ occadir = occapkgdir * "/deps/OCCA2"
 if !isdir(occadir);
     run(`git clone $occa_github $occadir`);
 else
-    run(`git pull $occa_github $occadir`);
+    run(`git pull $occadir`);
 end
 
 
