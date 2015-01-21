@@ -52,4 +52,4 @@ end
 
 # Run the main build command.
 run(`make -f $occadir/makefile clean`);
-run(`make -j -f $occadir/makefile OCCA_COMPILING_WITH_JULIA=1`);
+run(`make -j -f $occadir/makefile COMPILING_WITH_JULIA=1`);
