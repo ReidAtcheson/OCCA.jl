@@ -2,8 +2,8 @@ occa_github = "https://github.com/tcew/OCCA2.git";
 
 occapkgdir = Pkg.dir() * "/OCCA";
 
-if !isfile(occapkgdir * "src/occabuiltwith.jl")
-    f=open(occapkgdir * "src/occabuiltwith.jl","w");
+if !isfile(occapkgdir * "/src/occabuiltwith.jl")
+    f=open(occapkgdir * "/src/occabuiltwith.jl","w");
     write(f,"OCCA_USE_OPENMP   = false;\n");
     write(f,"OCCA_USE_PTHREADS = false;\n");
     write(f,"OCCA_USE_OPENCL   = false;\n");
