@@ -32,6 +32,8 @@ using OCCA;
 occadir = thisdir * "/OCCA2";
 if !isdir(occadir);
     run(`git clone $occa_github`);
+else
+    run(`git pull $occa_github`);
 end
 
 
@@ -56,7 +58,7 @@ end
 #Run the main build command.
 cd(occadir);
 run(`make clean`);
-run(`make OCCA_COMPILING_WITH_JULIA=1`);
+run(`make -j OCCA_COMPILING_WITH_JULIA=1`);
 
 
 #Return to previous directory.
