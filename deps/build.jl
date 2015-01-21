@@ -13,7 +13,7 @@ end
 
 
 f=open(occapkgdir * "/src/occapaths.jl","w");
-write(f,"const libocca=\"" * occapkgdir * "/OCCA2/lib/libocca.so\"");
+write(f,"const libocca=\"" * occapkgdir * "/deps/OCCA2/lib/libocca.so\"");
 close(f);
 
 using OCCA;
