@@ -12,21 +12,24 @@ if !isfile(occapkgdir * "/src/occabuiltwith.jl")
 end
 
 
-f=open(occapkgdir * "/src/occapaths.jl","w");
-write(f,"const libocca=\"" * occapkgdir * "/deps/OCCA2/lib/libocca.so\"");
+f = open(occapkgdir * "/src/occapaths.jl","w");
+write(f, "const libocca=\"" * occapkgdir * "/deps/OCCA2/lib/libocca.so\"");
 close(f);
 
 using OCCA;
 
-# If OCCA2 doesn't exist, download source from git.
-occadir = occapkgdir * "/deps/OCCA2"
 
+currentdir = pwd();
+cd(occapkgdir);
+
+# If OCCA2 doesn't exist, download source from git.
 if !isdir(occadir);
-    run(`git clone $occa_github $occadir`);
+    run(`git submodule add $occa_github deps/OCCA2`);
 else
-    run(`git pull $occadir`);
+    run(`git submodule foreach git pull`);
 end
 
+cd(currentdir);
 
 # Set necessary environment variables
 ENV["OCCA_DIR"] = occadir;
