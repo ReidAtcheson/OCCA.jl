@@ -1,66 +1,55 @@
 occa_github = "https://github.com/tcew/OCCA2.git";
 
-#Save current directory.
-olddir=pwd();
+occapkgdir = Pkg.dir() * "/OCCA";
 
-#Get directory of build file.
-thisfile = @__FILE__();
-thisdir  = dirname(thisfile);
-
-#Change to dependencies directory.
-cd(thisdir);
-
-
-if !isfile("../src/occabuiltwith.jl")
-    f=open("../src/occabuiltwith.jl","w");
-    write(f,"OCCA_USE_OPENMP = false;\n");
+if !isfile(occapkgdir * "/src/occabuiltwith.jl")
+    f=open(occapkgdir * "/src/occabuiltwith.jl","w");
+    write(f,"OCCA_USE_OPENMP   = false;\n");
     write(f,"OCCA_USE_PTHREADS = false;\n");
-    write(f,"OCCA_USE_OPENCL = false;\n");
-    write(f,"OCCA_USE_CUDA = false;\n");
+    write(f,"OCCA_USE_OPENCL   = false;\n");
+    write(f,"OCCA_USE_CUDA     = false;\n");
     close(f);
 end
 
 
-f=open("../src/occapaths.jl","w");
-write(f,"const libocca=\"$(thisdir)/OCCA2/lib/libocca.so\"");
+f = open(occapkgdir * "/src/occapaths.jl","w");
+write(f, "const libocca=\"" * occapkgdir * "/deps/OCCA2/lib/libocca.so\"");
 close(f);
 
 using OCCA;
 
 
-#If OCCA2 doesn't exist, download source from git.
-occadir = thisdir * "/OCCA2";
+currentdir = pwd();
+cd(occapkgdir);
+
+occadir = occapkgdir * "/deps/OCCA2";
+
+# If OCCA2 doesn't exist, download source from git.
 if !isdir(occadir);
-    run(`git clone $occa_github`);
+    run(`git submodule add $occa_github deps/OCCA2`);
+else
+    run(`git submodule foreach git pull`);
 end
 
+cd(currentdir);
 
-#Set necessary environment variables
-ENV["OCCA_DIR"]=occadir;
+# Set necessary environment variables
+ENV["OCCA_DIR"] = occadir;
 
 if OCCA.USE_OPENMP
-    ENV["OCCA_OPENMP_ENABLED"]=1;
+    ENV["OCCA_OPENMP_ENABLED"] = 1;
 end
 if OCCA.USE_PTHREADS
-    ENV["OCCA_PTHREADS_ENABLED"]=1;
+    ENV["OCCA_PTHREADS_ENABLED"] = 1;
 end
 if OCCA.USE_CUDA
-    ENV["OCCA_CUDA_ENABLED"]=1;
+    ENV["OCCA_CUDA_ENABLED"] = 1;
 end
 if OCCA.USE_OPENCL
-    ENV["OCCA_OPENCL_ENABLED"]=1;
+    ENV["OCCA_OPENCL_ENABLED"] = 1;
 end
 
 
-
-#Run the main build command.
-cd(occadir);
-run(`make clean`);
-run(`make`);
-
-
-#Return to previous directory.
-cd(olddir);
-
-
-
+# Run the main build command.
+run(`make -f $occadir/makefile clean`);
+run(`make -j -f $occadir/makefile COMPILING_WITH_JULIA=1`);

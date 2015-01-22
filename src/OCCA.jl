@@ -2,14 +2,11 @@ module OCCA
 include("occapaths.jl");
 include("occabuiltwith.jl");
 
-
 #Flags for which threading libraries to build into OCCA.
-USE_OPENMP = OCCA_USE_OPENMP;
+USE_OPENMP   = OCCA_USE_OPENMP;
 USE_PTHREADS = OCCA_USE_PTHREADS;
-USE_CUDA = OCCA_USE_CUDA;
-USE_OPENCL = OCCA_USE_OPENCL;
-
-
+USE_CUDA     = OCCA_USE_CUDA;
+USE_OPENCL   = OCCA_USE_OPENCL;
 
 thisfile= @__FILE__();
 thisdir = dirname(thisfile);
@@ -21,10 +18,7 @@ cd("../deps");
 #Point to OCCA shared library.
 ENV["OCCA_DIR"]=pwd() * "/OCCA2"
 
-
 cd(tmpdir);
-
-
 
 #---[ Types ]-----------------
 type Device
@@ -161,6 +155,18 @@ function malloc(d::Device, entriesAndType)
                     d.cDevice, bytes, C_NULL)
 
     return Memory(cmemory, ctypes)
+end
+
+function flush(d::Device)
+    ccall((:occaDeviceFlush, libocca),
+          Void,
+          (Ptr{Void},), d.cDevice)
+end
+
+function finish(d::Device)
+    ccall((:occaDeviceFinish, libocca),
+          Void,
+          (Ptr{Void},), d.cDevice)
 end
 
 function createstream(d::Device)
@@ -452,7 +458,7 @@ function rebuildwith!(;pthreads=false,opencl=false,cuda=false,openmp=false)
     end
     close(f);
     reload("OCCA");
- 
+
 
 
     USE_OPENMP = openmp;
@@ -462,6 +468,5 @@ function rebuildwith!(;pthreads=false,opencl=false,cuda=false,openmp=false)
 
     Pkg.build("OCCA");
 end
-
 
 end
