@@ -87,7 +87,10 @@ kernel void addVectors(const int entries,
 
 
 #Known issues
+
+
 The build script does not work for Windows, this is under development.
+
 
 
 
