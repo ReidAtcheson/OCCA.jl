@@ -67,7 +67,7 @@ function test_openmp_okl_ofl_vectoradd(kernelfile::String,backend::TestBackend)
                                             "addVectors")
 
     OCCA.runkernel!(addvectors,
-                   (entries, Int32),
+                   entries,
                    o_a, o_b, o_ab)
 
     OCCA.memcpy!(ab, o_ab)

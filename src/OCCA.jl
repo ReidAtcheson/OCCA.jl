@@ -257,33 +257,19 @@ argType(arg::Uint64) = ccall((:occaULong, libocca), Ptr{Void}, (Uint64,), arg)
 argType(arg::Float32) = ccall((:occaFloat, libocca), Ptr{Void}, (Float32,) , arg)
 argType(arg::Float64) = ccall((:occaDouble, libocca), Ptr{Void}, (Float64,) , arg)
 
+argType(arg::Memory) = arg.cmemory;
+
 function runkernel!(k::Kernel, args...)
     argList = ccall((:occaGenArgumentList, libocca),
                     Ptr{Void}, ())
 
     pos = convert(Int32, 0)
     for arg in args
-        if isa(arg, Memory)
-            ccall((:occaArgumentListAddArg, libocca),
-                  Void,
-                  (Ptr{Void}, Int32, Ptr{Void},),
-                  argList, pos, arg.cmemory)
-        else
-            if length(arg) != 2
-                error("Kernel argument should be in the form of (value, type)")
-            end
-
-            arg_ = arg[1]
-            convert(arg[2], arg_)
-
-            cArg = argType(arg_)
-
-            ccall((:occaArgumentListAddArg, libocca),
-                  Void,
-                  (Ptr{Void}, Int32, Ptr{Void},),
-                  argList, pos, cArg)
-        end
-
+        carg = argType(arg);
+        ccall((:occaArgumentListAddArg,libocca),
+        Void,
+        (Ptr{Void}, Int32, Ptr{Void},),
+        argList, pos, carg);
         pos += 1
     end
 
