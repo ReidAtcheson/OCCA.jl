@@ -74,7 +74,7 @@ kernel void addVectors(const int entries,
                                             "addVectors")
 
     OCCA.runkernel!(addvectors,
-                   (entries, Int32),
+                   entries,
                    o_a, o_b, o_ab)
 
     OCCA.memcpy!(ab, o_ab)
@@ -89,7 +89,9 @@ kernel void addVectors(const int entries,
 #Known issues
 
 
-The build script does not work for Windows, this is under development.
+*The build script does not work for Windows, this is under development.
+*If you target the CPU with OpenCL and also use shared memory, it will likely crash.
+**This appears to be a problem with OpenCL and not with OCCA.
 
 
 
