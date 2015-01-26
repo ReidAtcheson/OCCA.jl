@@ -74,7 +74,7 @@ kernel void addVectors(const int entries,
                                             "addVectors")
 
     OCCA.runkernel!(addvectors,
-                   (entries, Int32),
+                   entries,
                    o_a, o_b, o_ab)
 
     OCCA.memcpy!(ab, o_ab)
