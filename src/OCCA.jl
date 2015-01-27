@@ -48,7 +48,7 @@ type KernelInfo
 end
 
 function KernelInfo()
-    return ccall((:occaGenKernelInfo, libocca),Void,(,));
+    return ccall((:occaGenKernelInfo, libocca),Void,());
 end
 
 
