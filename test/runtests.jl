@@ -21,7 +21,7 @@ include("test_okl_ofl_vectoradd.jl");
 
 
 #Test reduction kernel.
-include("test_reduction.jl");
+include("test_okl_reduction.jl");
 @test test_okl_reduction(TestBackend(testserial)) == true;
 @test test_okl_reduction(TestBackend(testopenmp)) == true;
 @test test_okl_reduction(TestBackend(testopencl)) == true;
