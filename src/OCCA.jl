@@ -94,26 +94,26 @@ end
 function buildkernelfromsource(d::Device,
                                filename::String,
                                functionName::String)
-         return ccall((:occaBuildKernelFromSource, libocca),
+         return Kernel(ccall((:occaBuildKernelFromSource, libocca),
                         Ptr{Void},
                         (Ptr{Void}, Ptr{Uint8}, Ptr{Uint8}, Ptr{Void},),
                         d.cdevice,
                         bytestring(filename),
                         bytestring(functionName),
-                        C_NULL);
+                        C_NULL));
 end
 
 function buildkernelfromsource(d::Device,
                                filename::String,
                                functionName::String,
                                info::KernelInfo)
-       return  ccall((:occaBuildKernelFromSource, libocca),
+       return  Kernel(ccall((:occaBuildKernelFromSource, libocca),
                         Ptr{Void},
                         (Ptr{Void}, Ptr{Uint8}, Ptr{Uint8}, Ptr{Void},),
                         d.cdevice,
                         bytestring(filename),
                         bytestring(functionName),
-                        info.ckernelinfo)
+                        info.ckernelinfo));
 end
 
 
