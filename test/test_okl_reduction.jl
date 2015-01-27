@@ -51,13 +51,16 @@ function test_okl_reduction(backend::TestBackend)
     a=Array(Float32,(entries,)); a[:]=1.0;
     ared=Array(Float32,(nred,)); ared[:]=0.0;
 
+    kernelinfo = OCCA.KernelInfo();
+    adddefine!(kernelinfo,"p_Nred",nred);
+
 
 
     device  = OCCA.Device(linfo);
     o_a     = OCCA.malloc(device, a);
     o_ared  = OCCA.malloc(device, ared);
 
-    reduction = OCCA.buildkernelfromsource(device,"reduction.okl","reduction");
+    reduction = OCCA.buildkernelfromsource(device,"reduction.okl","reduction",kernelinfo);
 
 
 

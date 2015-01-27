@@ -47,6 +47,11 @@ type KernelInfo
     ckernelinfo::Ptr{Void}
 end
 
+function KernelInfo()
+    return ccall((:occaGenKernelInfo, libocca),Void,(,));
+end
+
+
 
 type Memory
     cmemory::Ptr{Void}
@@ -55,7 +60,7 @@ end
 
 
 #---[ Device ]----------------
-function finalizer!(d::Device)
+function finalize(d::Device)
     ccall((:occaDeviceFree, libocca),
           Void,
           (Ptr{Void},),
@@ -88,28 +93,29 @@ end
 
 function buildkernelfromsource(d::Device,
                                filename::String,
-                               functionName::String;
-                               info = C_NULL)
-    if info == C_NULL
-        ckernel = ccall((:occaBuildKernelFromSource, libocca),
+                               functionName::String)
+         return ccall((:occaBuildKernelFromSource, libocca),
                         Ptr{Void},
                         (Ptr{Void}, Ptr{Uint8}, Ptr{Uint8}, Ptr{Void},),
                         d.cdevice,
                         bytestring(filename),
                         bytestring(functionName),
-                        C_NULL)
-    else
-        ckernel = ccall((:occaBuildKernelFromSource, libocca),
+                        C_NULL);
+end
+
+function buildkernelfromsource(d::Device,
+                               filename::String,
+                               functionName::String,
+                               info::KernelInfo)
+       return  ccall((:occaBuildKernelFromSource, libocca),
                         Ptr{Void},
                         (Ptr{Void}, Ptr{Uint8}, Ptr{Uint8}, Ptr{Void},),
                         d.cdevice,
                         bytestring(filename),
                         bytestring(functionName),
                         info.ckernelinfo)
-    end
-
-    return Kernel(ckernel)
 end
+
 
 function buildkernelfrombinary(d::Device,
                                filename::String,
