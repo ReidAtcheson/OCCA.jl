@@ -52,7 +52,7 @@ function test_okl_reduction(backend::TestBackend)
     ared=Array(Float32,(nred,)); ared[:]=0.0;
 
     kernelinfo = OCCA.KernelInfo();
-    adddefine!(kernelinfo,"p_Nred",nred);
+    OCCA.adddefine!(kernelinfo,"p_Nred",nred);
 
 
 
