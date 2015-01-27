@@ -1,11 +1,9 @@
-thisdir = dirname(@__FILE__());
-addvectorfile = thisdir * "/addVectors.okl";
-function test_okl_ofl_vectoradd(backend::TestBackend)
+function test_okl_reduction(backend::TestBackend)
     OpenMP_Info   = "mode = OpenMP  , schedule = compact, chunk = 10";
     OpenCL_Info   = "mode = OpenCL  , platformID = 0, deviceID = 0";
     CUDA_Info     = "mode = CUDA    , deviceID = 0";
     Pthreads_Info = "mode = Pthreads, threadCount = 4, schedule = compact, pinnedCores = [0, 0, 1, 1]";
-    #COI_Info      = "mode = COI     , deviceID = 0";
+ 
 
     linfo::String = "";
     if backend == TestBackend(testopencl)
@@ -46,34 +44,35 @@ function test_okl_ofl_vectoradd(backend::TestBackend)
         linfo = OpenMP_Info;
     end
 
+    entries=1024;
+    nred   =256;
+
+    reducedentries = entries/nred;
+    a=Array(Float32,(entries,)); a[:]=1.0;
+    ared=Array(Float32,(nred,)); ared[:]=0.0;
 
 
-    entries = 5
 
-    device = OCCA.Device(linfo);
+    device  = OCCA.Device(linfo);
+    o_a     = OCCA.malloc(device, a);
+    o_ared  = OCCA.malloc(device, ared);
 
-    a  = Float32[1 - i for i in 1:entries]
-    b  = Float32[i     for i in 1:entries]
-    ab = Array(Float32,(length(a),));
-
-    correctvals = [1.0 for i in 1:entries];
-
-    o_a  = OCCA.malloc(device, a);
-    o_b  = OCCA.malloc(device, b);
-    o_ab = OCCA.malloc(device, ab);
-
-    addvectors = OCCA.buildkernelfromsource(device,
-                                            addvectorfile,
-                                            "addVectors")
-
-    OCCA.runkernel!(addvectors,
-                   entries,
-                   o_a, o_b, o_ab)
-
-    OCCA.memcpy!(ab, o_ab)
+    reduction = OCCA.buildkernelfromsource(device,"reduction.okl","reduction");
 
 
-    return (norm(correctvals-ab)/norm(correctvals))<1e-5
+
+    OCCA.runkernel!(reduction,entries,o_a,o_ared);
+
+    OCCA.memcpy!(ared,o_ared);
+
+
+    val=sum(ared);
+
+    
+
+    relerr= abs(sum(a)-val)/sum(a);
+
+    return relerr<1e-5;
+
+
 end
-
-
