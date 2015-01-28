@@ -33,6 +33,55 @@ function Device(infos::String)
    return Device(cdevice);
 end
 
+function Device(infos::String)
+    cdevice = ccall((:occaGetDevice, libocca),
+                    Ptr{Void},
+                    (Ptr{Uint8},),
+                    bytestring(infos));
+   return Device(cdevice);
+end
+
+function Device(mode        = "",
+                threadCount = -1,
+                schedule    = "",
+                pinnedCores = Int32[],
+                deviceID    = -1,
+                platformID  = -1)
+
+    infos::String = "";
+
+    if mode != ""
+        infos *= string("mode = ",  mode)
+    end
+
+    if 0 <= threadCount
+        infos *= string(", threadCount = ", threadCount)
+    end
+
+    if schedule != ""
+        infos *= string(", schedule = ", schedule)
+    end
+
+    if 0 < length(pinnedCores)
+        infos *= string(", pinnedCores = [", pinnedCores[0])
+
+        for core in pinnedCores[2:end]
+            infos *= string(", ", core)
+        end
+
+        infos *= "]"
+    end
+
+    if 0 <= deviceID
+        infos *= string(", deviceID = ", deviceID)
+    end
+
+    if 0 <= platformID
+        infos *= string(", platformID = ", platformID)
+    end
+
+    return Device(infos)
+end
 
 type Stream
     cstream::Ptr{Void}
