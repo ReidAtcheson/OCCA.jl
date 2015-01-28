@@ -4,8 +4,7 @@ function test_okl_ofl_vectoradd(backend::TestBackend)
     linfo=get_info_string(backend);
     entries = 5
 
-    #device = OCCA.Device(linfo);
-    device  = OCCA.Device(mode="OpenCL",deviceID=1,platformID=0,pinnedCores=[1,1,1,1,1,1,1]);
+    device = OCCA.Device(linfo);
 
     a  = Float32[1 - i for i in 1:entries]
     b  = Float32[i     for i in 1:entries]
