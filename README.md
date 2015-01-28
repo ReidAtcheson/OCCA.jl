@@ -87,11 +87,9 @@ kernel void addVectors(const int entries,
 
 
 #Known issues
-
-
-*The build script does not work for Windows, this is under development.
-*If you target the CPU with OpenCL and also use shared memory, it will likely crash.
-**This appears to be a problem with OpenCL and not with OCCA.
+=======
+-The build script does not work for Windows, this is under development.
+-If OCCA kernel file uses shared memory and you target OpenCL+CPU, it will crash. This appears to be an OpenCL problem and not an OCCA problem.
 
 
 

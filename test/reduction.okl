@@ -1,5 +1,3 @@
-#define p_Nred 256
-
 occaKernel void reduction(const int entries,
                           const float *a,
                           float *aRed){
