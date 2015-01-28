@@ -309,6 +309,15 @@ function adddefine!(info::KernelInfo, macro_::String, value::String)
           info.ckernelinfo, bytestring(macro_), occaValue)
 end
 
+function addinclude!(info::KernelInfo, includepath::String)
+    ccall((:occaKernelInfoAddInclude,libocca),
+    Void,
+    (Ptr{Void},Ptr{Uint8},),
+    info.ckernelinfo,bytestring(includepath));
+end
+
+function 
+
 function finalizer!(info::KernelInfo)
     ccall((:occaKernelInfoFree, libocca),
           Void,
