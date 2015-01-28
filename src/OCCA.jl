@@ -63,7 +63,7 @@ function Device(;mode        = "",
     end
 
     if 0 < length(pinnedCores)
-        infos *= string(", pinnedCores = [", pinnedCores[0])
+        infos *= string(", pinnedCores = [", pinnedCores[1])
 
         for core in pinnedCores[2:end]
             infos *= string(", ", core)
