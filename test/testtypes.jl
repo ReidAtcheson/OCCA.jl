@@ -34,7 +34,7 @@ function get_info_string(backend::TestBackend)
     #COI_Info      = "mode = COI     , deviceID = 0";
 
     linfo::String = "";
-    if backend == TestBackend(testopencl)
+    if backend == testopencl
         if OCCA.USE_OPENCL
             linfo=OpenCL_Info;
         else
@@ -42,7 +42,7 @@ function get_info_string(backend::TestBackend)
             return OpenMP_Info;
         end
     end
-    if backend == TestBackend(testopenmp)
+    if backend == testopenmp
         if OCCA.USE_OPENMP
             linfo=OpenMP_Info;
         else
@@ -50,7 +50,7 @@ function get_info_string(backend::TestBackend)
             return OpenMP_Info;
         end
     end
-    if backend==TestBackend(testcuda)
+    if backend == testcuda
         if OCCA.USE_CUDA
             linfo = CUDA_Info;
         else
@@ -58,7 +58,7 @@ function get_info_string(backend::TestBackend)
             return OpenMP_Info;
         end
     end
-    if backend==TestBackend(testpthreads)
+    if backend == testpthreads
         if OCCA.USE_PTHREADS
             linfo = Pthreads_Info;
         else
@@ -68,7 +68,7 @@ function get_info_string(backend::TestBackend)
     end
 
     #OpenMP will default to serial implementation if it is not otherwise built into OCCA.
-    if backend==TestBackend(testserial)
+    if backend == testopenmp
         linfo = OpenMP_Info;
     end
 
