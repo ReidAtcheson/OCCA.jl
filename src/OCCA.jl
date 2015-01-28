@@ -316,9 +316,8 @@ function addinclude!(info::KernelInfo, includepath::String)
     info.ckernelinfo,bytestring(includepath));
 end
 
-function 
 
-function finalizer!(info::KernelInfo)
+function finalize(info::KernelInfo)
     ccall((:occaKernelInfoFree, libocca),
           Void,
           (Ptr{Void},),
@@ -326,7 +325,7 @@ function finalizer!(info::KernelInfo)
 end
 
 #---[ Memory ]----------------
-function finalizer!(m::Memory)
+function finalize(m::Memory)
     ccall((:occaMemoryFree, libocca),
           Void,
           (Ptr{Void},),
