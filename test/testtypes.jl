@@ -1,10 +1,3 @@
-
-testopencl = TestOpenCL();
-testopenmp = TestOpenMP();
-testpthreads = TestPthreads();
-testcuda = TestCUDA();
-testserial = TestSerial();
-
 immutable TestBackend
     flag::Int64;
     function TestBackend(n::Int64)
