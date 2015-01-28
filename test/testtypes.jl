@@ -6,11 +6,11 @@ immutable TestBackend
     end
 end
 
-const test_opencl  =TestBackend(1);
-const test_openmp  =TestBackend(2);
-const test_pthreads=TestBackend(3);
-const test_cuda    =TestBackend(4);
-const test_serial  =TestBackend(5);
+const testopencl  =TestBackend(1);
+const testopenmp  =TestBackend(2);
+const testpthreads=TestBackend(3);
+const testcuda    =TestBackend(4);
+const testserial  =TestBackend(5);
 
 
 function (==)(rhs::TestBackend,lhs::TestBackend)
