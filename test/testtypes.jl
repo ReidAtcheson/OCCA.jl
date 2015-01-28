@@ -20,6 +20,8 @@ end
 
 
 function get_info_string(backend::TestBackend)
+
+    pinnedCores = [0,0,1,1];
     OpenMP_Info   = "mode = OpenMP  , schedule = compact, chunk = 10";
     OpenCL_Info   = "mode = OpenCL  , platformID = 0, deviceID = 0";
     CUDA_Info     = "mode = CUDA    , deviceID = 0";

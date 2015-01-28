@@ -41,7 +41,7 @@ function Device(infos::String)
    return Device(cdevice);
 end
 
-function Device(mode        = "",
+function Device(;mode        = "",
                 threadCount = -1,
                 schedule    = "",
                 pinnedCores = Int32[],

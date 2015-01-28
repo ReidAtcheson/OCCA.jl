@@ -3,7 +3,7 @@ function test_okl_reduction(backend::TestBackend)
     entries=10000;
     nred   =256;
 
-    reducedentries = iceil((entries+nred-1)/nred);
+    reducedentries = ceil(Int64,(entries+nred-1)/nred);
     a=Array(Float32,(entries,)); a[:]=1.0;
     ared=Array(Float32,(reducedentries,)); ared[:]=0.0;
 
