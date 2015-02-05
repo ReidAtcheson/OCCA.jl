@@ -97,7 +97,7 @@ type KernelInfo
 end
 
 function KernelInfo()
-    return KernelInfo(ccall((:occaGenKernelInfo, libocca),Ptr{Void},()));
+    return KernelInfo(ccall((:occaCreateKernelInfo, libocca),Ptr{Void},()));
 end
 
 
@@ -225,7 +225,7 @@ function finish(d::Device)
 end
 
 function createstream(d::Device)
-    cstream = ccall((:occaGenStream, libocca),
+    cstream = ccall((:occaCreateStream, libocca),
                     Ptr{Void},
                     (Ptr{Void},),
                     d.cDevice)
@@ -315,7 +315,7 @@ argType(arg::Float64) = ccall((:occaDouble, libocca), Ptr{Void}, (Float64,) , ar
 argType(arg::Memory) = arg.cmemory;
 
 function runkernel!(k::Kernel, args...)
-    argList = ccall((:occaGenArgumentList, libocca),
+    argList = ccall((:occaCreateArgumentList, libocca),
                     Ptr{Void}, ())
 
     pos = convert(Int32, 0)
