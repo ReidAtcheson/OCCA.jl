@@ -375,90 +375,32 @@ function mode(m::Memory)
     return bytestring(cMode)
 end
 
-function memcpy!(destTuple, srcTuple, bytes::Number = 0)
-    if isa(destTuple, Memory)
-        dest = destTuple.cmemory
+function memcpy!{T}(dest::Memory,src::Array{T})
+    destptr=dest.cmemory;
+    bytes=length(src)*sizeof(T);
+    ccall((:occaCopyPtrToMem,libocca),Void,(Ptr{Void},Ptr{Void},Uint,Uint,),destptr,src,Uint(bytes),Uint(0));
+end
 
-        destOffset = 0
-        convert(Uint, destOffset)
+function memcpy!(dest::Memory,src::Memory)             
+    destptr=dest.cmemory;
+    srcptr =src.cmemory;
+    ccall((:occaCopyMemToMem, libocca),Void,(Ptr{Void}, Ptr{Void}, Uint, Uint, Uint,),
+    destptr, srcptr, bytes, Uint(0), Uint(0)) 
+end
 
-        destIsAMemory = true
-    elseif isa(destTuple, Array)
-        dest = pointer(destTuple)
+function memcpy!{T}(src::Array{T},dest::Memory)
+    destptr=dest.cmemory;
+    srcptr =pointer(src);
+    bytes=length(src)*sizeof(T);
+    ccall((:occaCopyMemToPtr,libocca),Void,(Ptr{Void},Ptr{Void},Uint,Uint,),destptr,srcptr,Uint(0),Uint(0));
+end
 
-        destOffset = 0
-        convert(Uint, destOffset)
-
-        destIsAMemory = false
-    else
-        dest = destTuple[1]
-
-        if isa(dest, Memory)
-            dest = dest.cmemory
-            destIsAMemory = true
-        else
-            dest = pointer(destTuple[1])
-            destIsAMemory = false
-        end
-
-        destOffset = destTuple[2]
-        convert(Uint, destOffset)
-    end
-
-    if isa(srcTuple, Memory)
-        src = srcTuple.cmemory
-
-        srcOffset = 0
-        convert(Uint, srcOffset)
-
-        srcIsAMemory = true
-    elseif isa(srcTuple, Array)
-        src = pointer(srcTuple)
-
-        srcOffset = 0
-        convert(Uint, srcOffset)
-
-        srcIsAMemory = false
-    else
-        src = srcTuple[1]
-
-        if isa(src, Memory)
-            src = src.cmemory
-            srcIsAMemory = true
-        else
-            src = pointer(srcTuple[1])
-            srcIsAMemory = false
-        end
-
-        srcOffset = srcTuple[2]
-        convert(Uint, srcOffset)
-    end
-
-    convert(Uint, bytes)
-
-    if destIsAMemory
-        if srcIsAMemory
-            ccall((:occaCopyMemToMem, libocca),
-                  Void,
-                  (Ptr{Void}, Ptr{Void}, Uint, Uint, Uint,),
-                  dest, src, bytes, destOffset, srcOffset)
-        else
-            ccall((:occaCopyPtrToMem, libocca),
-                  Void,
-                  (Ptr{Void}, Ptr{Void}, Uint, Uint,),
-                  dest, src, bytes, destOffset)
-        end
-    else
-        if srcIsAMemory
-            ccall((:occaCopyMemToPtr, libocca),
-                  Void,
-                  (Ptr{Void}, Ptr{Void}, Uint, Uint,),
-                  dest, src, bytes, srcOffset)
-        else
-            error("One of the arguments should be an OCCA nemory type")
-        end
+function memcpy!(src::Array{T},dest::Array{T})
+    for i = 1 : length(src)
+        src[i]=dest[i];
     end
 end
+
 
 function swap!(a::Memory, b::Memory)
     tmp       = a.cmemory
