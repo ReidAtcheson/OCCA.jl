@@ -505,7 +505,7 @@ end
 
 function verbosecompile(enabled::Bool)
      ccall((:occaSetVerboseCompilation, libocca),
-                    Ptr{Void},
+                    Void,
                     (Int32,),
                     Int32(enabled ? 1 : 0));
 end
