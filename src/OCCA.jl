@@ -390,8 +390,8 @@ function memcpy!(dest::Memory,src::Memory)
 end
 
 function memcpy!{T}(dest::Array{T},src::Memory)
-    destptr=dest.cmemory;
-    srcptr =pointer(src);
+    destptr=pointer(dest);
+    srcptr =src.cmemory;
     ccall((:occaCopyMemToPtr,libocca),Void,(Ptr{Void},Ptr{Void},Uint,Uint,),
     destptr,srcptr,Uint(0),Uint(0));
 end
