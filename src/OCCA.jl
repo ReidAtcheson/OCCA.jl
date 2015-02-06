@@ -142,7 +142,7 @@ function set!(d::Device;compiler="",flags="")
 
 end
 
-function build(d::Device,filename::String,functionName::String;binary=false)
+function buildkernel(d::Device,filename::String,functionName::String;binary=false)
     if binary
       return Kernel(ccall((:occaBuildKernelFromBinary, libocca),
                     Ptr{Void},
@@ -161,7 +161,7 @@ function build(d::Device,filename::String,functionName::String;binary=false)
     end
 end
 
-function build(d::Device,filename::String,functionName::String,info::KernelInfo)
+function buildkernel(d::Device,filename::String,functionName::String,info::KernelInfo)
        return  Kernel(ccall((:occaBuildKernelFromSource, libocca),
                         Ptr{Void},
                         (Ptr{Void}, Ptr{Uint8}, Ptr{Uint8}, Ptr{Void},),
