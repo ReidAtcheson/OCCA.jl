@@ -124,20 +124,22 @@ function mode(d::Device)
     return bytestring(cmode)
 end
 
-function setcompiler!(d::Device,
-                     compiler::String)
-    ccall((:occaDeviceSetCompiler, libocca),
-          Void,
-          (Ptr{Void}, Ptr{Uint8},),
-          d.cDevice, bytestring(compiler))
-end
+function set!(d::Device;compiler="",flags="")
 
-function setcompilerflags!(d::Device,
-                          compilerFlags::String)
-    ccall((:occaDeviceSetCompilerFlags, libocca),
-          Void,
-          (Ptr{Void}, Ptr{Uint8},),
-          d.cDevice, bytestring(compilerFlags))
+    if length(compiler)>0
+        ccall((:occaDeviceSetCompiler, libocca),
+              Void,
+              (Ptr{Void}, Ptr{Uint8},),
+              d.cdevice, bytestring(compiler));
+    end
+
+    if length(flags)>0
+        ccall((:occaDeviceSetCompilerFlags, libocca),
+              Void,
+              (Ptr{Void}, Ptr{Uint8},),
+              d.cDevice, bytestring(flags));
+    end
+
 end
 
 function build(d::Device,filename::String,functionName::String;binary=false)
@@ -185,22 +187,13 @@ function malloc(d::Device, source::Array)
     return Memory(cmemory, ctypes)
 end
 
-function malloc(d::Device, entriesAndType)
-    if length(entriesAndType) != 2
-        error("malloc second argument must be a tuple of (bytes, type) or Array")
-    end
-
-    ctypes = entriesAndType[2]
-
-    bytes  = entriesAndType[1] * sizeof(ctypes)
-
+function malloc(d::Device, t::Type, nentries)
+    bytes  =  sizeof(t)*nentries;
     convert(Uint, bytes)
-
     cmemory = ccall((:occaDeviceMalloc, libocca),
                     Ptr{Void},
                     (Ptr{Void}, Uint, Ptr{Void},),
-                    d.cDevice, bytes, C_NULL)
-
+                    d.cdevice, bytes, C_NULL)
     return Memory(cmemory, ctypes)
 end
 
