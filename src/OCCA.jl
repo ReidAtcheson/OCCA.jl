@@ -140,9 +140,15 @@ function setcompilerflags!(d::Device,
           d.cDevice, bytestring(compilerFlags))
 end
 
-function buildkernelfromsource(d::Device,
-                               filename::String,
-                               functionName::String)
+function build(d::Device,filename::String,functionName::String;binary=false)
+    if binary
+      return Kernel(ccall((:occaBuildKernelFromBinary, libocca),
+                    Ptr{Void},
+                    (Ptr{Void}, Ptr{Uint8}, Ptr{Uint8},),
+                    d.cDevice,
+                    bytestring(filename),
+                    bytestring(functionName)));
+    else
          return Kernel(ccall((:occaBuildKernelFromSource, libocca),
                         Ptr{Void},
                         (Ptr{Void}, Ptr{Uint8}, Ptr{Uint8}, Ptr{Void},),
@@ -150,12 +156,10 @@ function buildkernelfromsource(d::Device,
                         bytestring(filename),
                         bytestring(functionName),
                         C_NULL));
+    end
 end
 
-function buildkernelfromsource(d::Device,
-                               filename::String,
-                               functionName::String,
-                               info::KernelInfo)
+function build(d::Device,filename::String,functionName::String,info::KernelInfo)
        return  Kernel(ccall((:occaBuildKernelFromSource, libocca),
                         Ptr{Void},
                         (Ptr{Void}, Ptr{Uint8}, Ptr{Uint8}, Ptr{Void},),
@@ -166,18 +170,6 @@ function buildkernelfromsource(d::Device,
 end
 
 
-function buildkernelfrombinary(d::Device,
-                               filename::String,
-                               functionName::String)
-    cKernel = ccall((:occaBuildKernelFromBinary, libocca),
-                    Ptr{Void},
-                    (Ptr{Void}, Ptr{Uint8}, Ptr{Uint8},),
-                    d.cDevice,
-                    bytestring(filename),
-                    bytestring(functionName))
-
-    return Kernel(cKernel)
-end
 
 function malloc(d::Device, source::Array)
     ctypes = typeof(source[1])
