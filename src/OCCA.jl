@@ -377,22 +377,23 @@ end
 
 function memcpy!{T}(dest::Memory,src::Array{T})
     destptr=dest.cmemory;
-    bytes=length(src)*sizeof(T);
-    ccall((:occaCopyPtrToMem,libocca),Void,(Ptr{Void},Ptr{Void},Uint,Uint,),destptr,src,Uint(bytes),Uint(0));
+    srcptr = pointer(src);
+    ccall((:occaCopyPtrToMem,libocca),Void,(Ptr{Void},Ptr{Void},Uint,Uint,),
+    destptr,srcptr,Uint(0),Uint(0));
 end
 
 function memcpy!(dest::Memory,src::Memory)             
     destptr=dest.cmemory;
     srcptr =src.cmemory;
     ccall((:occaCopyMemToMem, libocca),Void,(Ptr{Void}, Ptr{Void}, Uint, Uint, Uint,),
-    destptr, srcptr, bytes, Uint(0), Uint(0)) 
+    destptr, srcptr, Uint(0), Uint(0), Uint(0)) 
 end
 
 function memcpy!{T}(src::Array{T},dest::Memory)
     destptr=dest.cmemory;
     srcptr =pointer(src);
-    bytes=length(src)*sizeof(T);
-    ccall((:occaCopyMemToPtr,libocca),Void,(Ptr{Void},Ptr{Void},Uint,Uint,),destptr,srcptr,Uint(0),Uint(0));
+    ccall((:occaCopyMemToPtr,libocca),Void,(Ptr{Void},Ptr{Void},Uint,Uint,),
+    destptr,srcptr,Uint(0),Uint(0));
 end
 
 function memcpy!{T}(src::Array{T},dest::Array{T})
