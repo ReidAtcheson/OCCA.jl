@@ -16,7 +16,7 @@ function test_okl_ofl_vectoradd(backend::TestBackend)
     o_b  = OCCA.malloc(device, b);
     o_ab = OCCA.malloc(device, ab);
 
-    addvectors = OCCA.buildkernelfromsource(device,
+    addvectors = OCCA.buildkernel(device,
                                             addvectorfile,
                                             "addVectors")
 

@@ -503,4 +503,12 @@ function rebuildwith!(;pthreads=false,opencl=false,cuda=false,openmp=false)
     Pkg.build("OCCA");
 end
 
+function verbosecompile(enabled::Bool)
+     ccall((:occaSetVerboseCompilation, libocca),
+                    Ptr{Void},
+                    (Int32,),
+                    Int32(enabled ? 1 : 0));
+end
+
+
 end
