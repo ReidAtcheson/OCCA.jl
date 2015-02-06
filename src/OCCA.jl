@@ -395,7 +395,7 @@ function memcpy!{T}(src::Array{T},dest::Memory)
     ccall((:occaCopyMemToPtr,libocca),Void,(Ptr{Void},Ptr{Void},Uint,Uint,),destptr,srcptr,Uint(0),Uint(0));
 end
 
-function memcpy!(src::Array{T},dest::Array{T})
+function memcpy!{T}(src::Array{T},dest::Array{T})
     for i = 1 : length(src)
         src[i]=dest[i];
     end
