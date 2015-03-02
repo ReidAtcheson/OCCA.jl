@@ -109,7 +109,7 @@ end
 
 
 #---[ Device ]----------------
-function finalize(d::Device)
+function free(d::Device)
     ccall((:occaDeviceFree, libocca),
           Void,
           (Ptr{Void},),
@@ -235,7 +235,7 @@ function setstream!(d::Device, s::Stream)
 end
 
 #---[ Kernel ]----------------
-function finalizer!(k::Kernel)
+function free(k::Kernel)
     ccall((:occaKernelFree, libocca),
           Void,
           (Ptr{Void},),
@@ -351,7 +351,7 @@ function addinclude!(info::KernelInfo, includepath::String)
 end
 
 
-function finalize(info::KernelInfo)
+function free(info::KernelInfo)
     ccall((:occaKernelInfoFree, libocca),
           Void,
           (Ptr{Void},),
@@ -359,7 +359,7 @@ function finalize(info::KernelInfo)
 end
 
 #---[ Memory ]----------------
-function finalize(m::Memory)
+function free(m::Memory)
     ccall((:occaMemoryFree, libocca),
           Void,
           (Ptr{Void},),
