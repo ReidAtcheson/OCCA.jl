@@ -69,13 +69,9 @@ kernel void addVectors(const int entries,
     o_b  = OCCA.malloc(device, b);
     o_ab = OCCA.malloc(device, ab);
 
-    addvectors = OCCA.buildkernelfromsource(device,
-                                            "addVectors.okl",
-                                            "addVectors")
+    addvectors = OCCA.buildkernel(device,"addVectors.okl","addVectors")
 
-    OCCA.runkernel!(addvectors,
-                   entries,
-                   o_a, o_b, o_ab)
+    OCCA.runkernel!(addvectors,entries,o_a,o_b,o_ab)
 
     OCCA.memcpy!(ab, o_ab)
 

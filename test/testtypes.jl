@@ -22,6 +22,8 @@ end
 function get_info_string(backend::TestBackend)
 
     pinnedCores = [0,0,1,1];
+
+    Serial_Info   ="mode = Serial";
     OpenMP_Info   = "mode = OpenMP  , schedule = compact, chunk = 10";
     OpenCL_Info   = "mode = OpenCL  , platformID = 0, deviceID = 0";
     CUDA_Info     = "mode = CUDA    , deviceID = 0";
@@ -34,7 +36,7 @@ function get_info_string(backend::TestBackend)
             linfo=OpenCL_Info;
         else
             print("OpenCL support not compiled in OCCA.\n");
-            linfo=OpenMP_Info;
+            linfo=Serial_Info;
         end
     end
     if backend == testopenmp
@@ -42,7 +44,7 @@ function get_info_string(backend::TestBackend)
             linfo=OpenMP_Info;
         else
             print("OpenMP support not compiled in OCCA.\n");
-            linfo=OpenMP_Info;
+            linfo=Serial_Info;
         end
     end
     if backend == testcuda
@@ -50,7 +52,7 @@ function get_info_string(backend::TestBackend)
             linfo = CUDA_Info;
         else
             print("CUDA support not compiled in OCCA.\n");
-            linfo = OpenMP_Info;
+            linfo = Serial_Info;
         end
     end
     if backend == testpthreads
@@ -58,13 +60,13 @@ function get_info_string(backend::TestBackend)
             linfo = Pthreads_Info;
         else
             print("Pthreads support not compiled in OCCA.\n");
-            linfo = OpenMP_Info;
+            linfo = Serial_Info;
         end
     end
 
     #OpenMP will default to serial implementation if it is not otherwise built into OCCA.
     if backend == testserial
-        linfo = OpenMP_Info;
+        linfo = Serial_Info;
     end
 
 

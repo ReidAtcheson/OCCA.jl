@@ -15,7 +15,7 @@ function test_okl_reduction(backend::TestBackend)
     o_a     = OCCA.malloc(device, a);
     o_ared  = OCCA.malloc(device, ared);
 
-    reduction = OCCA.buildkernelfromsource(device,"reduction.okl","reduction",kernelinfo);
+    reduction = OCCA.buildkernel(device,"reduction.okl","reduction",kernelinfo);
 
 
 
