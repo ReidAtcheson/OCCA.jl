@@ -193,8 +193,8 @@ function malloc(d::Device, t::Type, nentries)
     cmemory = ccall((:occaDeviceMalloc, libocca),
                     Ptr{Void},
                     (Ptr{Void}, Uint, Ptr{Void},),
-                    d.cdevice, bytes, C_NULL)
-    return Memory(cmemory, ctypes)
+                    d.cdevice, bytes, C_NULL);
+    return Memory(cmemory, t)
 end
 
 function flush(d::Device)
