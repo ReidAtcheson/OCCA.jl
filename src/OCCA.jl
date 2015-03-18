@@ -324,13 +324,6 @@ function runkernel!(k::Kernel, args...)
           argList)
 end
 
-function timetaken(k::Kernel)
-    return ccall((:occaKernelTimeTaken, libocca),
-                 Float64,
-                 (Ptr{Void},),
-                 k.ckernel)
-end
-
 function adddefine!(info::KernelInfo, macro_::String, value::String)
     occaValue = ccall((:occaString, libocca),
                       Ptr{Void},
@@ -382,11 +375,11 @@ function memcpy!{T}(dest::Memory,src::Array{T})
     destptr,srcptr,Uint(0),Uint(0));
 end
 
-function memcpy!(dest::Memory,src::Memory)             
+function memcpy!(dest::Memory,src::Memory)
     destptr=dest.cmemory;
     srcptr =src.cmemory;
     ccall((:occaCopyMemToMem, libocca),Void,(Ptr{Void}, Ptr{Void}, Uint, Uint, Uint,),
-    destptr, srcptr, Uint(0), Uint(0), Uint(0)) 
+    destptr, srcptr, Uint(0), Uint(0), Uint(0))
 end
 
 function memcpy!{T}(dest::Array{T},src::Memory)
